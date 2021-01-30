@@ -8,7 +8,7 @@
     <div class="my-5">
       <form>
         <div class="row">
-          <div class="col-4">
+          <div class="col-12 col-md-4 mb-2">
             <label for="description"><b>Job Description</b></label>
             <input
               type="text"
@@ -18,7 +18,7 @@
               v-model="description"
             />
           </div>
-          <div class="col-4">
+          <div class="col-12 col-md-4 mb-2">
             <label for="location"><b>Location</b></label>
             <input
               type="text"
@@ -59,11 +59,11 @@
         </div>
       </form>
     </div>
-    <div class="responsive-table">
-      <div class="d-flex justify-content-center align-items-center py-3 w-full" v-if="isLoading">
-        <font-awesome-icon class="text-secondary" icon="compass" spin size="6x" swap-opacity/>
-      </div>
-      <table class="table table-stripe" v-else>
+    <div class="d-flex justify-content-center align-items-center py-3 w-full" v-if="isLoading">
+      <font-awesome-icon class="text-secondary" icon="compass" spin size="6x" swap-opacity/>
+    </div>
+    <div class="table-responsive" v-else>
+      <table class="table table-stripe">
         <thead>
           <tr>
             <th>Job Title</th>
@@ -93,7 +93,8 @@
           </tr>
         </tbody>
       </table>
-      <div class="d-flex justify-content-center align-item-center p-4">
+    </div>
+    <div class="d-flex justify-content-center align-item-center p-4 mb-5">
         <ul class="pagination">
           <li
             @click="previousPage"
@@ -111,7 +112,6 @@
           </li>
         </ul>
       </div>
-    </div>
   </div>
 </template>
 

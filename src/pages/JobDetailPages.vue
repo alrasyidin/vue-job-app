@@ -52,7 +52,7 @@ export default {
   methods: {
     async fetchJobDetail(id) {
       const jobData = await this.$http.get(
-        `https://jobs.github.com/positions/${id}.json`
+        `jobs.github.com/positions/${id}.json`
       )
       this.job = await jobData.data
       console.log(this.job)
