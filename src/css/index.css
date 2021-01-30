@@ -1,0 +1,24 @@
+.card-body .content h2,
+.card-body .content h3{
+	font-size: 18px;
+}
+
+.card-body .content h4,
+.card-body .content h5,
+.card-body .content h6{
+	font-size: 16px;
+}
+
+.page-item{
+	cursor: pointer;
+}
+li.page-item.disabled {
+	cursor: auto;	
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
