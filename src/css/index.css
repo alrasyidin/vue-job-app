@@ -17,6 +17,10 @@ li.page-item.disabled {
 	cursor: auto;	
 }
 
+table thead th{
+	cursor: pointer;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }

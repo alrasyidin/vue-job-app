@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="row mt-3">
-         <div class="col">
+          <div class="col">
             <button
               @click="searchJobMatched"
               type="button"
@@ -59,22 +59,42 @@
         </div>
       </form>
     </div>
-    <div class="d-flex justify-content-center align-items-center py-3 w-full" v-if="isLoading">
-      <font-awesome-icon class="text-secondary" icon="compass" spin size="6x" swap-opacity/>
+    <div
+      class="d-flex justify-content-center align-items-center py-3 w-full"
+      v-if="isLoading"
+    >
+      <font-awesome-icon
+        class="text-secondary"
+        icon="compass"
+        spin
+        size="6x"
+        swap-opacity
+      />
     </div>
     <div class="table-responsive" v-else>
       <table class="table table-stripe">
         <thead>
           <tr>
-            <th>Job Title</th>
-            <th>Location</th>
-            <th>Company</th>
-            <th>Type</th>
+            <th @click="sortJobs('title')">
+              Job Title
+              <font-awesome-icon class="pt-1" :icon="iconSort('title')" />
+            </th>
+            <th @click="sortJobs('location')">
+              Location
+              <font-awesome-icon class="pt-1" :icon="iconSort('location')" />
+            </th>
+            <th @click="sortJobs('company')">
+              Company
+              <font-awesome-icon class="pt-1" :icon="iconSort('company')" />
+            </th>
+            <th @click="sortJobs('type')">
+              Type <font-awesome-icon class="pt-1" :icon="iconSort('type')" />
+            </th>
           </tr>
         </thead>
         <tbody>
           <template v-if="jobs.length > 0">
-            <tr v-for="(job, index) in jobs" :key="index">
+            <tr v-for="(job, index) in sortedJobs" :key="index">
               <td>
                 <!-- <img :src="job.company_logo" alt="Company Logo" style="width:50px"> -->
                 <router-link
@@ -95,23 +115,23 @@
       </table>
     </div>
     <div class="d-flex justify-content-center align-item-center p-4 mb-5">
-        <ul class="pagination">
-          <li
-            @click="previousPage"
-            class="page-item"
-            :class="{ disabled: disable.prev }"
-          >
-            <a class="page-link" tabindex="-1">Previous</a>
-          </li>
-          <li
-            @click="nextPage"
-            class="page-item"
-            :class="{ disabled: disable.next }"
-          >
-            <a class="page-link">Next</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="pagination">
+        <li
+          @click="previousPage"
+          class="page-item"
+          :class="{ disabled: disable.prev }"
+        >
+          <a class="page-link" tabindex="-1">Previous</a>
+        </li>
+        <li
+          @click="nextPage"
+          class="page-item"
+          :class="{ disabled: disable.next }"
+        >
+          <a class="page-link">Next</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -129,14 +149,31 @@ export default {
         next: false,
         prev: true,
       },
-      isLoading: false
+      isLoading: false,
+      sort: {
+        order: "asc",
+        column: "title",
+      },
     }
   },
   mounted() {
     this.fetchAllJobs()
   },
   computed: {
+    sortedJobs() {
+      return this.jobs.slice().sort((a, b) => {
+        let left = a[this.sort.column].toLowerCase().trim()
+        let right = b[this.sort.column].toLowerCase().trim()
 
+        if (left > right) {
+          return this.sort.order == "asc" ? -1 : 1
+        } else if (left < right) {
+          return this.sort.order == "desc" ? -1 : 1
+        } else {
+          return 0
+        }
+      })
+    },
   },
   methods: {
     async fetchAllJobs() {
@@ -155,7 +192,6 @@ export default {
 
       // using pagination
       if (this.currentPage != 1) {
-        console.log(this.currentPage)
         query += `page=${this.currentPage}`
       }
 
@@ -176,37 +212,57 @@ export default {
       }
       this.isLoading = false
     },
+    sortJobs(column) {
+      // this.iconSort = ['fas', 'sort-up']
+      this.sort.column = column
+      if (this.sort.order == "asc") {
+        this.sort.order = "desc"
+      } else {
+        this.sort.order = "asc"
+      }
+    },
+    iconSort(column) {
+      if (this.sort.column == column) {
+        if (this.sort.order == "asc") {
+          return ["fas", "sort-down"]
+        } else {
+          return ["fas", "sort-up"]
+        }
+      } else {
+        return ["fas", "sort"]
+      }
+    },
     searchJobMatched() {
       this.fetchAllJobs()
     },
-    clearInput(){
-      this.location=  "",
-      this.isFulltime=  false
-      this.description=  ""
+    clearInput() {
+      this.location = ""
+      this.isFulltime = false
+      this.description = ""
       this.fetchAllJobs()
     },
     nextPage() {
-        this.disable.prev = false
+      this.disable.prev = false
 
-        if (this.jobs.length == 0) {
-          this.disable.next = true
-          return
-        }
+      if (this.jobs.length == 0) {
+        this.disable.next = true
+        return
+      }
 
-        this.currentPage++
+      this.currentPage++
 
-        this.fetchAllJobs()
+      this.fetchAllJobs()
     },
     previousPage() {
-        this.disable.next = false
+      this.disable.next = false
 
-        if (this.currentPage <= 0) {
-          this.disable.prev = true
-          return
-        }
+      if (this.currentPage <= 0) {
+        this.disable.prev = true
+        return
+      }
 
-        this.currentPage--
-        this.fetchAllJobs()
+      this.currentPage--
+      this.fetchAllJobs()
     },
   },
 }

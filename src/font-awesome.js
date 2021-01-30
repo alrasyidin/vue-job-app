@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
-import { faCompass } from '@fortawesome/free-solid-svg-icons'
+import { faCompass, faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCompass)
+library.add(faCompass, faSort, faSortUp, faSortDown)
 
 dom.watch()
 
