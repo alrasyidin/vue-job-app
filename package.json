@@ -18,7 +18,7 @@
     "moment": "^2.29.1",
     "popper": "^1.0.1",
     "popper.js": "^1.16.1",
-    "skeleton-loader-vue": "^1.0.6",
+    "skeleton-loader-vue": "^1.0.8",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1"
   },
